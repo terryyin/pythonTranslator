@@ -10,3 +10,10 @@ sys.excepthook(type, value, traceback)
 to add hooks to Python. Then probably use
 $PYTHONSTARTUP
 To make it default behavior of the system.
+
+Features
+----------
+* catch the syntax error and translate the output
++ catch other error and translate
++ catch errors output in unittest
++ system hook 
