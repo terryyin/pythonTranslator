@@ -38,7 +38,7 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
         
     def testShouldSeeTranslatedSyntaxError(self):
         stdout, stderr = self.shell.communicate("1+\n")
-        self.assertIn(resource.ExceptionTypes['SyntaxError'], stderr.splitlines())
+        self.assertEqual(1, stderr.splitlines().count(resource.ExceptionTypes['SyntaxError']))
         self.assertEqual('', stdout)
         
     def testShouldNotSeeTranslatedSyntaxErrorWhenNoInput(self):
@@ -55,7 +55,19 @@ class testDubForPythonInProgramMode(unittest.TestCase):
     def testShouldSeeTranslationOfTheError(self):
         self.shell = Popen("python test/example.py 1+\n".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
         stdout, stderr = self.shell.communicate("")
-        self.assertIn(resource.ExceptionTypes['SyntaxError'], stderr.splitlines())
+        self.assertEqual(1, stderr.splitlines().count(resource.ExceptionTypes['SyntaxError']))
+
+class testDubForProgramUsingTraceback(unittest.TestCase):
+    def testShouldGetDualLanguageTraceback(self):
+        import dub
+        import traceback
+        import sys
+        try:
+            eval("1+\n")
+        except:
+            etype, value, tb = sys.exc_info()
+        traceList = traceback.format_exception(etype, value, tb)
+        self.assertIn(resource.ExceptionTypes['SyntaxError']+'\n', traceList)
         
         
 if __name__ == '__main__':

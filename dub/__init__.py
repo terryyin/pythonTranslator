@@ -19,9 +19,15 @@ import resource
 import sys
 import traceback
 
+__traceback_format_exception = traceback.format_exception
+def dub_format_exception(etype, value, tb, limit = None):
+    traceList = __traceback_format_exception(etype, value, tb, limit)
+    traceList.append(resource.ExceptionTypes['SyntaxError'] + '\n')
+    return traceList
+traceback.format_exception = dub_format_exception
+
 def excepthook(exctype, value, tb):
-    sys.stderr.writelines(traceback.format_exception(exctype, value, tb))
-    sys.stderr.write(resource.ExceptionTypes['SyntaxError'] + '\n')
+    sys.stderr.writelines(dub_format_exception(exctype, value, tb))
     
 sys.excepthook = excepthook
 

@@ -41,3 +41,4 @@ Expecting Features
 + catch errors output in unittest
 + persistently change PYTHONSTARTUP and IDLE setup automatically
 + "python -mdub SyntaxError" will provide help for SyntaxError in dual language
++ build a document
