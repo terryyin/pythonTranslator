@@ -34,9 +34,10 @@ to add hooks to Python. Then probably use
 $PYTHONSTARTUP
 To make it default behavior of the system.
 
-Features
+Expecting Features
 ----------
 * catch the syntax error and translate the output
 + catch other error and translate
 + catch errors output in unittest
 + persistently change PYTHONSTARTUP and IDLE setup automatically
++ "python -mdub SyntaxError" will provide help for SyntaxError in dual language
