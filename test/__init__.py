@@ -18,6 +18,8 @@
 import unittest
 
 from integrationTests import *
+from dubTest import *
+from translatorTest import *
         
 if __name__ == '__main__':
     unittest.main()

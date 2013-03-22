@@ -15,15 +15,16 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-import resource
 import sys
 import traceback
+from translator import translateTraceList
 
 __traceback_format_exception = traceback.format_exception
+
 def dub_format_exception(etype, value, tb, limit = None):
     traceList = __traceback_format_exception(etype, value, tb, limit)
-    traceList.append(resource.ExceptionTypes['SyntaxError'] + '\n')
-    return traceList
+    return translateTraceList(traceList)
+
 traceback.format_exception = dub_format_exception
 
 def excepthook(exctype, value, tb):
