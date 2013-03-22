@@ -14,8 +14,9 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import dub.resource as resource
-import sys
 import dub
+import sys
 
-sys.stderr.write(resource.WELCOME + resource.VERSION + "\n")
+if __name__ == '__main__':
+    for arg in sys.argv[1:]:
+        eval(arg)

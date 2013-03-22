@@ -4,15 +4,15 @@
 '''
 
 from distutils.core import setup
-from resource import VERSION
+from dub.resource import VERSION
 def install():
     setup(name = 'dub',
           version = VERSION,
-          py_modules = ['dub'],
+          packages = ['dub'],
           author = 'Terry Yin',
           author_email = 'terry.yinze@gmail.com',
           url= 'https://github.com/terryyin/pythonTranslator',
-          scripts=['dub.py', 'dubShell.py', 'resource.py']
+          scripts=['dubShell.py']
           )
 
 if __name__ == "__main__":

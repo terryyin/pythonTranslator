@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -14,8 +15,10 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import dub.resource as resource
-import sys
-import dub
 
-sys.stderr.write(resource.WELCOME + resource.VERSION + "\n")
+WELCOME = "已启动Python中英文双语插件DUB"
+VERSION = "0.1"
+GITHUB = "https://github.com/terryyin/pythonTranslator"
+ExceptionTypes = {
+                  'SyntaxError':'语法错误：无效的语法'
+                  }
