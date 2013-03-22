@@ -42,3 +42,4 @@ Expecting Features
 + persistently change PYTHONSTARTUP and IDLE setup automatically
 + "python -mdub SyntaxError" will provide help for SyntaxError in dual language
 + build a document
++ Display Chinese in error output other than '\xe5\x90...'

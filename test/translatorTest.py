@@ -16,23 +16,23 @@
 #
 
 import unittest
-
+from dub import translateTraceList
+import re
+from utility import assertTypeOFTranslatedLine
 
 class TranslatorTest(unittest.TestCase):
+    def testTranslateEmptyList(self):
+        traceList = translateTraceList([])
+        self.assertEquals([], traceList)
 
 
-    def setUp(self):
-        pass
+    def testTranslateTraceBack(self):
+        traceList = translateTraceList(['Traceback (most recent call last):\n'])
+        self.assertRegexpMatches(traceList[0], re.escape('Traceback (most recent call last):'))
+        assertTypeOFTranslatedLine(self, traceList[1], 'Traceback')
 
 
-    def tearDown(self):
-        pass
-
-
-    def testName(self):
-        pass
-
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()
+    def testTranslateErrorWithArgument(self):
+        line = translateTraceList(["NameError: name 'xxx' is not defined\n"])[1]
+        assertTypeOFTranslatedLine(self, line, 'NameError')
+        self.assertIn('xxx', line)

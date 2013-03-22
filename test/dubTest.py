@@ -17,7 +17,7 @@
 
 import unittest
 from dub import dub_format_exception
-import dub.resource as resource
+from utility import typeOFTranslatedLineInList
 
 CODE_SYNTAXERROR_INVALID_SYNTAX = "1+\n"
 NAMEERROR = 'not_defined\n'
@@ -33,11 +33,12 @@ class DubTest(unittest.TestCase):
 
     def testSyntaxError(self):
         traceList = self.generatorTraceback(CODE_SYNTAXERROR_INVALID_SYNTAX)
-        self.assertIn(resource.ExceptionTypes['SyntaxError']+'\n', traceList)
+        self.assertTrue(typeOFTranslatedLineInList('SyntaxError', traceList))
+
     def testIndentationError(self):
         traceList = self.generatorTraceback(NAMEERROR)
-        self.assertIn(resource.ExceptionTypes['NameError']+'\n', traceList)
-        self.assertNotIn(resource.ExceptionTypes['SyntaxError']+'\n', traceList)
+        self.assertTrue(typeOFTranslatedLineInList('NameError', traceList))
+        self.assertFalse(typeOFTranslatedLineInList('SyntaxError', traceList))
 
 if __name__ == "__main__":
     unittest.main()

@@ -27,17 +27,23 @@ def _initPatterns():
         __errorTypePatterns = re.compile(regstr)
     return __errorTypePatterns
 
-def translateLine(line):
+def _translateLine(line):
     global __errorTypePatterns
     yield line
     m = __errorTypePatterns.match(line)
     if m:
-        yield resource.ExceptionTypes[m.lastgroup] + '\n'
+        newLine = resource.ExceptionTypes[m.lastgroup]['name'] + ':'
+        for detail in resource.ExceptionTypes[m.lastgroup]['detail']:
+            dm = re.match(detail[0], line[m.end() + 1:].lstrip())
+            if dm:
+                newLine += dm.expand(detail[1])
+                break
+        yield newLine + '\n'
 
 def translateTraceList(traceList):
     _initPatterns()
     translatedList =[]
     for line in traceList:
-        translatedList.extend(translateLine(line))
+        translatedList.extend(_translateLine(line))
     return translatedList
 

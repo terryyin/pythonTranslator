@@ -17,10 +17,14 @@
 
 import unittest
 
-from integrationTests import *
-from dubTest import *
-from translatorTest import *
-from resourceTest import *
-        
-if __name__ == '__main__':
+
+class Test(unittest.TestCase):
+
+
+    def testName(self):
+        pass
+
+
+if __name__ == "__main__":
+    #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

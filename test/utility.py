@@ -15,12 +15,15 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-import unittest
+import re
+import dub.resource as resource
 
-from integrationTests import *
-from dubTest import *
-from translatorTest import *
-from resourceTest import *
-        
-if __name__ == '__main__':
-    unittest.main()
+def assertTypeOFTranslatedLine(self, line, errorType):
+    return self.assertRegexpMatches(line, re.escape(resource.ExceptionTypes[errorType]['name']))
+
+def typeOFTranslatedLineInList(errorType, traceList):
+    p = re.compile(re.escape(resource.ExceptionTypes[errorType]['name']))
+    for line in traceList:
+        if p.match(line):
+            return True
+    return False
