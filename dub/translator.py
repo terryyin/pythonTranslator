@@ -34,7 +34,7 @@ def _translateLine(line):
     if m:
         newLine = resource.ExceptionTypes[m.lastgroup]['name'] + ':'
         for detail in resource.ExceptionTypes[m.lastgroup]['detail']:
-            dm = re.match(detail[0], line[m.end() + 1:].lstrip())
+            dm = re.match(cFormatterToRegex(detail[0]), line[m.end() + 1:].lstrip())
             if dm:
                 newLine += dm.expand(detail[1])
                 break
@@ -47,3 +47,10 @@ def translateTraceList(traceList):
         translatedList.extend(_translateLine(line))
     return translatedList
 
+cFormatterPattern = re.compile("%\.?\d*s")
+def cFormatterToRegex(cFormatterString):
+    regex = cFormatterString
+    m = cFormatterPattern.search(cFormatterString)
+    if m:
+        regex = regex.replace(m.group(0), "(.*)")
+    return regex

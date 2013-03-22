@@ -25,7 +25,7 @@ ExceptionTypes = {
                                  'detail':[("",'无效的语法')]},
                   'NameError':{
                                'name':'名字错误',
-                               'detail':[("name '(.+)' is not defined",r"名字'\1'还没有定义")]},
+                               'detail':[("name '%.200s' is not defined",r"名字'\1'还没有定义")]},
                   'Traceback':{
                                'name' :'回溯追踪（最近的调用在最后）',
                                'detail':[('','')]},

@@ -17,14 +17,14 @@
 
 import unittest
 
+from dub.translator import cFormatterToRegex
 
-class Test(unittest.TestCase):
+class TestCFormatterToRegex(unittest.TestCase):
+
+    def testNoFormatter(self):
+        self.assertEqual("regular String", cFormatterToRegex("regular String"))
+
+    def testStringFormatter(self):
+        self.assertEqual("name '(.*)' is not defined", cFormatterToRegex("name '%.200s' is not defined"))
 
 
-    def testName(self):
-        pass
-
-
-if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()
