@@ -18,6 +18,13 @@
 import resource
 import re
 
+def translateTraceList(traceList):
+    _initPatterns()
+    translatedList =[]
+    for line in traceList:
+        translatedList.extend(_translateLine(line))
+    return translatedList
+
 __errorTypePatterns = None
 
 def _initPatterns():
@@ -27,27 +34,25 @@ def _initPatterns():
         __errorTypePatterns = re.compile(regstr)
     return __errorTypePatterns
 
+def _translateMessage(errorType, message):
+    for msgPattern in resource.ExceptionTypes[errorType]['messages']:
+        dm = re.match(cFormatterToRegex(msgPattern[0]), message.lstrip())
+        if dm:
+            return dm.expand(msgPattern[1])
+    return message
+
+def _translateLineOfType(errorType, message):
+    return resource.ExceptionTypes[errorType]['name'] + ':' + _translateMessage(errorType, message) + "\n"
+
 def _translateLine(line):
     global __errorTypePatterns
     yield line
     m = __errorTypePatterns.match(line)
     if m:
-        newLine = resource.ExceptionTypes[m.lastgroup]['name'] + ':'
-        for detail in resource.ExceptionTypes[m.lastgroup]['detail']:
-            dm = re.match(cFormatterToRegex(detail[0]), line[m.end() + 1:].lstrip())
-            if dm:
-                newLine += dm.expand(detail[1])
-                break
-        yield newLine + '\n'
+        yield _translateLineOfType(m.lastgroup, line[m.end() + 1:])
 
-def translateTraceList(traceList):
-    _initPatterns()
-    translatedList =[]
-    for line in traceList:
-        translatedList.extend(_translateLine(line))
-    return translatedList
+cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
 
-cFormatterPattern = re.compile(r"\\%\\?\.?\d*s")
 def cFormatterToRegex(cFormatterString):
     regex = re.escape(cFormatterString)
     for m in cFormatterPattern.findall(regex):

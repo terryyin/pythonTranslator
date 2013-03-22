@@ -19,8 +19,9 @@ import unittest
 from dub import dub_format_exception
 from utility import typeOFTranslatedLineInList
 
-CODE_SYNTAXERROR_INVALID_SYNTAX = "1+\n"
-NAMEERROR = 'not_defined\n'
+CODE_SYNTAXERROR = "1+\n"
+CODE_NAMEERROR = 'not_defined\n'
+
 class DubTest(unittest.TestCase):
     def generatorTraceback(self, code):
         import sys
@@ -32,11 +33,11 @@ class DubTest(unittest.TestCase):
         return traceList
 
     def testSyntaxError(self):
-        traceList = self.generatorTraceback(CODE_SYNTAXERROR_INVALID_SYNTAX)
+        traceList = self.generatorTraceback(CODE_SYNTAXERROR)
         self.assertTrue(typeOFTranslatedLineInList('SyntaxError', traceList))
 
     def testNameError(self):
-        traceList = self.generatorTraceback(NAMEERROR)
+        traceList = self.generatorTraceback(CODE_NAMEERROR)
         self.assertTrue(typeOFTranslatedLineInList('NameError', traceList))
         self.assertFalse(typeOFTranslatedLineInList('SyntaxError', traceList))
 

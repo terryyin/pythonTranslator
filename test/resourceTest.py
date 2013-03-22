@@ -27,6 +27,12 @@ class TestCFormatterToRegex(unittest.TestCase):
     def testStringFormatter(self):
         self.assertEqual(r"name\ \'(.*)\'", cFormatterToRegex("name '%.200s'"))
 
+    def testStringFormatterForDigits(self):
+        self.assertEqual(r"(.*)", cFormatterToRegex("%d"))
+
+    def testStringFormatterForObjects(self):
+        self.assertEqual(r"(.*)", cFormatterToRegex("%R"))
+
     def testStringFormatterWithParen(self):
         self.assertEqual(r"\(\)", cFormatterToRegex("()"))
 

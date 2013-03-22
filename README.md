@@ -43,3 +43,4 @@ Expecting Features
 + "python -mdub SyntaxError" will provide help for SyntaxError in dual language
 + build a document
 + Display Chinese in error output other than '\xe5\x90...'
++ Flag for Chinese only

@@ -43,6 +43,10 @@ class TranslatorTest(unittest.TestCase):
         self.assertIn('/', line)
         
     def testAssertionError(self):
-        line = translateTraceList(["AssertionError: 'xxx' not found in '\xe5\x90\x8d\xe5\xad\x97\xe9\x94\x99\xe8\xaf\xaf:\n'"])[1]
+        line = translateTraceList([r"AssertionError: 'xxx' not found in '\xe5\x90\x8d\xe5\xad\x97\xe9\x94\x99\xe8\xaf\xaf:\n'"])[1]
         assertTypeOFTranslatedLine(self, line, 'AssertionError')
 
+    def testTranslateErrorWithMessageThatDoesntMatchAnyDefinedPattern(self):
+        line = translateTraceList(["TypeError: NOT_DEFINED"])[1]
+        assertTypeOFTranslatedLine(self, line, 'TypeError')
+        self.assertIn('NOT_DEFINED', line)
