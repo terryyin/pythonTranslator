@@ -11,7 +11,7 @@ import resource
 class testDubForPythonInInteractiveMode(unittest.TestCase):
     def setUp(self):
         env = os.environ.copy()
-        env["PYTHONSTARTUP"] = "./dub.py"
+        env["PYTHONSTARTUP"] = "./dubShell.py"
         self.shell = Popen("python -i".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE, env = env)
         
     def testShouldSeeWelcomeInformation(self):
@@ -28,6 +28,18 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
         stdout, stderr = self.shell.communicate("")
         self.assertNotIn(resource.ExceptionTypes['SyntaxError'], stderr.splitlines())
         self.assertEqual('', stdout)
+
+class testDubForPythonInProgramMode(unittest.TestCase):
+    def testShouldSeeNoErrorWhenEverythingIsOK(self):
+        self.shell = Popen("python example.py".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
+        stdout, stderr = self.shell.communicate("")
+        self.assertEqual([], stderr.splitlines())
+        
+    def testShouldSeeTranslationOfTheError(self):
+        self.shell = Popen("python example.py 1+\n".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
+        stdout, stderr = self.shell.communicate("")
+        self.assertIn(resource.ExceptionTypes['SyntaxError'], stderr.splitlines())
+        
         
 if __name__ == '__main__':
     unittest.main()

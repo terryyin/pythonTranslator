@@ -11,6 +11,5 @@ def excepthook(exctype, value, tb):
     
 sys.excepthook = excepthook
 
-sys.stderr.write(resource.WELCOME + resource.VERSION + "\n")
 if __name__ == '__main__':
     pass
