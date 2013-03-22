@@ -47,10 +47,9 @@ def translateTraceList(traceList):
         translatedList.extend(_translateLine(line))
     return translatedList
 
-cFormatterPattern = re.compile("%\.?\d*s")
+cFormatterPattern = re.compile(r"\\%\\?\.?\d*s")
 def cFormatterToRegex(cFormatterString):
-    regex = cFormatterString
-    m = cFormatterPattern.search(cFormatterString)
-    if m:
-        regex = regex.replace(m.group(0), "(.*)")
+    regex = re.escape(cFormatterString)
+    for m in cFormatterPattern.findall(regex):
+        regex = regex.replace(m, "(.*)")
     return regex

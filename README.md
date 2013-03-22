@@ -16,7 +16,7 @@ sudo python setup.py install
 在需要使用双语化的代码或者交互shell里输入：
 import dub
 这样出错信息就会变成双语的。
-目前有一个限制就是如果和import dub同级的代码有语法错误，那么dub还没有开始工作，所以错误信息仍为中文。
+目前有一个限制就是如果和import dub同级的代码有语法错误，那么dub还没有开始工作，所以错误信息仍为英文。
 
 
 For developer

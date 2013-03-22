@@ -25,14 +25,24 @@ class TranslatorTest(unittest.TestCase):
         traceList = translateTraceList([])
         self.assertEquals([], traceList)
 
-
     def testTranslateTraceBack(self):
         traceList = translateTraceList(['Traceback (most recent call last):\n'])
         self.assertRegexpMatches(traceList[0], re.escape('Traceback (most recent call last):'))
         assertTypeOFTranslatedLine(self, traceList[1], 'Traceback')
 
-
     def testTranslateErrorWithArgument(self):
         line = translateTraceList(["NameError: name 'xxx' is not defined\n"])[1]
         assertTypeOFTranslatedLine(self, line, 'NameError')
         self.assertIn('xxx', line)
+
+    def testTranslateErrorWithMultipleArgument(self):
+        line = translateTraceList(["TypeError: unsupported operand type(s) for /: 'str' and 'int'"])[1]
+        assertTypeOFTranslatedLine(self, line, 'TypeError')
+        self.assertIn('str', line)
+        self.assertIn('int', line)
+        self.assertIn('/', line)
+        
+    def testAssertionError(self):
+        line = translateTraceList(["AssertionError: 'xxx' not found in '\xe5\x90\x8d\xe5\xad\x97\xe9\x94\x99\xe8\xaf\xaf:\n'"])[1]
+        assertTypeOFTranslatedLine(self, line, 'AssertionError')
+

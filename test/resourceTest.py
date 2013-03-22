@@ -22,9 +22,15 @@ from dub.translator import cFormatterToRegex
 class TestCFormatterToRegex(unittest.TestCase):
 
     def testNoFormatter(self):
-        self.assertEqual("regular String", cFormatterToRegex("regular String"))
+        self.assertEqual(r"regular\ String", cFormatterToRegex("regular String"))
 
     def testStringFormatter(self):
-        self.assertEqual("name '(.*)' is not defined", cFormatterToRegex("name '%.200s' is not defined"))
+        self.assertEqual(r"name\ \'(.*)\'", cFormatterToRegex("name '%.200s'"))
+
+    def testStringFormatterWithParen(self):
+        self.assertEqual(r"\(\)", cFormatterToRegex("()"))
+
+    def testStringFormatterMulitplePlaces(self):
+        self.assertEqual("(.*)(.*)(.*)", cFormatterToRegex("%.100s%.200s%s"))
 
 

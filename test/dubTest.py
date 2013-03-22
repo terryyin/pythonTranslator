@@ -35,10 +35,11 @@ class DubTest(unittest.TestCase):
         traceList = self.generatorTraceback(CODE_SYNTAXERROR_INVALID_SYNTAX)
         self.assertTrue(typeOFTranslatedLineInList('SyntaxError', traceList))
 
-    def testIndentationError(self):
+    def testNameError(self):
         traceList = self.generatorTraceback(NAMEERROR)
         self.assertTrue(typeOFTranslatedLineInList('NameError', traceList))
         self.assertFalse(typeOFTranslatedLineInList('SyntaxError', traceList))
+
 
 if __name__ == "__main__":
     unittest.main()
