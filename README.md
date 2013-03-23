@@ -103,7 +103,8 @@ WELCOME
 ##IndexError:索引错误
 ###%s assignment index out of range
 对\1的赋值操作索引超出了范围
-###%s index out of range", r"对\1的索引超出了范围")
+###%s index out of range
+对\1的索引超出了范围
                                         
 ##ValueError:值错误
 ###invalid literal for int() with base %d: %R
