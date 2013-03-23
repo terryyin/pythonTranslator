@@ -20,8 +20,10 @@ import unittest
 from subprocess import Popen, PIPE
 import os
 import dub.resource as resource
-from utility import typeOFTranslatedLineInList
+from .utility import typeOFTranslatedLineInList
+import sys
 
+decode = [lambda x:x, lambda x:x.decode('UTF-8')][sys.version_info.major>2] 
 
 class testDubForPythonInInteractiveMode(unittest.TestCase):
     def setUp(self):
@@ -31,29 +33,29 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
         
     def testShouldSeeWelcomeInformation(self):
         stdout, stderr = self.shell.communicate("")
-        self.assertIn(resource.WELCOME + resource.VERSION, stderr.splitlines())
-        self.assertEqual('', stdout)
+        self.assertIn(resource.WELCOME + resource.VERSION, decode(stderr))
+        self.assertEqual('', decode(stdout))
         
     def testShouldSeeTranslatedSyntaxError(self):
-        stdout, stderr = self.shell.communicate("1+\n")
-        self.assertTrue(typeOFTranslatedLineInList('SyntaxError', stderr.splitlines()))
-        self.assertEqual('', stdout)
+        stdout, stderr = self.shell.communicate("1+\n".encode("UTF-8"))
+        self.assertTrue(typeOFTranslatedLineInList('SyntaxError', decode(stderr).splitlines()))
+        self.assertEqual('', decode(stdout))
         
     def testShouldNotSeeTranslatedSyntaxErrorWhenNoInput(self):
         stdout, stderr = self.shell.communicate("")
-        self.assertFalse(typeOFTranslatedLineInList('SyntaxError', stderr.splitlines()))
-        self.assertEqual('', stdout)
+        self.assertFalse(typeOFTranslatedLineInList('SyntaxError', decode(stderr).splitlines()))
+        self.assertEqual('', decode(stdout))
 
 class testDubForPythonInProgramMode(unittest.TestCase):
     def testShouldSeeNoErrorWhenEverythingIsOK(self):
         self.shell = Popen("python test/example.py".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
         stdout, stderr = self.shell.communicate("")
-        self.assertEqual([], stderr.splitlines())
+        self.assertEqual([], decode(stderr).splitlines())
         
     def testShouldSeeTranslationOfTheError(self):
         self.shell = Popen("python test/example.py 1+\n".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
         stdout, stderr = self.shell.communicate("")
-        self.assertTrue(typeOFTranslatedLineInList('SyntaxError', stderr.splitlines()))
+        self.assertTrue(typeOFTranslatedLineInList('SyntaxError', decode(stderr).splitlines()))
 
 class testDubForProgramUsingTraceback(unittest.TestCase):
     def testShouldGetDualLanguageTraceback(self):

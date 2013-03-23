@@ -17,7 +17,7 @@
 
 import sys
 import traceback
-from translator import translateTraceList
+from .translator import translateTraceList
 
 __traceback_format_exception = traceback.format_exception
 

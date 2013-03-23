@@ -34,12 +34,12 @@ This project is going to provide multiple language support for the Python progra
 Expecting Features
 ----------
 - [X] catch the syntax error and translate the output
-- [ ] catch other error and translate
-- [ ] catch errors output in unittest
+- [X] catch some of the other errors and translate
+- [X] catch errors output in unittest (hack traceback)
 - [ ] persistently change PYTHONSTARTUP and IDLE setup automatically
 - [ ] "python -mdub SyntaxError" will provide help for SyntaxError in dual language
-- [ ] build a document
+- [ ] read from a .md document. A new interface to load a different document
 - [ ] Display Chinese in error output other than '\xe5\x90...'
-- [ ] Flag for Chinese only
+- [ ] Flags for output in translated language only
 - [ ] Use README.md as default document that store all info
 

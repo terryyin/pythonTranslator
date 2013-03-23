@@ -17,7 +17,7 @@
 
 import unittest
 from dub import dub_format_exception
-from utility import typeOFTranslatedLineInList
+from .utility import typeOFTranslatedLineInList
 
 CODE_SYNTAXERROR = "1+\n"
 CODE_NAMEERROR = 'not_defined\n'

@@ -18,16 +18,16 @@
 import unittest
 from dub import translateTraceList
 import re
-from utility import assertTypeOFTranslatedLine
+from .utility import assertTypeOFTranslatedLine
 
 class TranslatorTest(unittest.TestCase):
     def testTranslateEmptyList(self):
         traceList = translateTraceList([])
-        self.assertEquals([], traceList)
+        self.assertEqual([], traceList)
 
     def testTranslateTraceBack(self):
         traceList = translateTraceList(['Traceback (most recent call last):\n'])
-        self.assertRegexpMatches(traceList[0], re.escape('Traceback (most recent call last):'))
+        self.assertTrue(traceList[0].startswith('Traceback (most recent call last):'))
         assertTypeOFTranslatedLine(self, traceList[1], 'Traceback')
 
     def testTranslateErrorWithArgument(self):

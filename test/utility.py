@@ -19,7 +19,7 @@ import re
 import dub.resource as resource
 
 def assertTypeOFTranslatedLine(self, line, errorType):
-    return self.assertRegexpMatches(line, re.escape(resource.ExceptionTypes[errorType]['name']))
+    return self.assertTrue(line.startswith(resource.ExceptionTypes[errorType]['name']))
 
 def typeOFTranslatedLineInList(errorType, traceList):
     p = re.compile(re.escape(resource.ExceptionTypes[errorType]['name']))
