@@ -30,6 +30,8 @@ def typeOFTranslatedLineInList(errorType, traceList):
             return True
     return False
 
+WELCOME = "已启动Python中英文双语插件DUB"
+
 ExceptionTypes = {
                   'SyntaxError':{
                                  'name':'语法错误',

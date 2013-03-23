@@ -20,7 +20,7 @@ import unittest
 from subprocess import Popen, PIPE
 import os
 import dub.resource as resource
-from .testData import typeOFTranslatedLineInList
+from .testData import typeOFTranslatedLineInList, WELCOME
 import sys
 
 decode = [lambda x:x, lambda x:x.decode('UTF-8')][sys.version_info.major>2] 
@@ -33,7 +33,7 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
         
     def testShouldSeeWelcomeInformation(self):
         stdout, stderr = self.shell.communicate("")
-        self.assertIn(resource.WELCOME + resource.VERSION, decode(stderr))
+        self.assertIn(WELCOME + resource.VERSION, decode(stderr))
         self.assertEqual('', decode(stdout))
         
     def testShouldSeeTranslatedSyntaxError(self):

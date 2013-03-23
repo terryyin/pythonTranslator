@@ -42,7 +42,7 @@ class TestCFormatterToRegex(unittest.TestCase):
         self.assertEqual("(.*)(.*)(.*)", cFormatterToRegex("%.100s%.200s%s"))
 
 
-START_TOKEN = "DUB Python Error Message Translator\n=====\n"
+START_TOKEN = "WELCOME\n=====\n"
 class TestLoadResourceFile(unittest.TestCase):
     
     def test_ShouldRaiseWhenNoStartTokenFound(self):
@@ -54,6 +54,10 @@ class TestLoadResourceFile(unittest.TestCase):
     def test_ShouldReturnEmptyTypesWhenStartTokenFound(self):
         types = LoadExceptionTypesInfo(START_TOKEN)
         self.assertEqual(0, len(types))
+    
+    def test_ShouldReturnEmptyTypesWithWelcomeInfoWhenDefined(self):
+        types = LoadExceptionTypesInfo(START_TOKEN + "welcome!\n")
+        self.assertEqual('welcome!', types['welcome'])
     
     def test_ShouldReturnTypeWhenDefined(self):
         types = LoadExceptionTypesInfo(START_TOKEN + 

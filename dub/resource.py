@@ -15,6 +15,9 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
+
+import re
+
 def loadExceptionTypesFromFile(resourceFile="README.md"):
     global ExceptionTypes
     import os, sys
@@ -31,9 +34,13 @@ class DUBLoadError(Exception):
         return self.message
 
 def LoadExceptionTypesInfo(doc):
-    start = doc.find("DUB Python Error Message Translator\n=")
+    start = doc.find("WELCOME\n=")
     if start >=0:
         types = {}
+        lines = doc[start:].splitlines()[2:]
+        if len(lines) > 0 and not lines[0].startswith("##"):
+            types['welcome'] = lines[0]
+            lines = lines[1:]
         currentMessages = []
         for line in doc[start:].splitlines()[2:]:
             line = line.strip()
@@ -51,6 +58,13 @@ def LoadExceptionTypesInfo(doc):
     error = DUBLoadError("No expection info found")
     raise error
 
-WELCOME = "已启动Python中英文双语插件DUB"
+cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
+
+def cFormatterToRegex(cFormatterString):
+    regex = re.escape(cFormatterString)
+    for m in cFormatterPattern.findall(regex):
+        regex = regex.replace(m, "(.*)")
+    return regex
+
 VERSION = "0.1"
 GITHUB = "https://github.com/terryyin/pythonTranslator"

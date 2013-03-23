@@ -15,50 +15,39 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-from .resource import loadExceptionTypesFromFile
+from .resource import loadExceptionTypesFromFile, cFormatterToRegex
 import re
 
-def translateTraceList(traceList):
-    _initPatterns()
-    translatedList =[]
-    for line in traceList:
-        translatedList.extend(_translateLine(line))
-    return translatedList
+class PythonMessageTranslator:
+    def __init__(self):
+        self._initPatterns()
 
-__errorTypePatterns = None
-__ExceptionTypes = None
+    def translateTraceList(self, traceList):
+        translatedList = []
+        for line in traceList:
+            translatedList.extend(self._translateLine(line))
+        return translatedList
 
-def _initPatterns():
-    global __errorTypePatterns, __ExceptionTypes
-    if __errorTypePatterns is None:
-        __ExceptionTypes = loadExceptionTypesFromFile()
-        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in __ExceptionTypes.keys()])
-        __errorTypePatterns = re.compile(regstr)
-    return __errorTypePatterns
+    def _initPatterns(self):
+        self._ExceptionTypes = loadExceptionTypesFromFile()
+        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in self._ExceptionTypes.keys()])
+        self._errorTypePatterns = re.compile(regstr)
+    
+    def _translateMessage(self, errorType, message):
+        for msgPattern in self._ExceptionTypes[errorType]['messages']:
+            dm = re.match(cFormatterToRegex(msgPattern[0]), message.lstrip())
+            if dm:
+                return dm.expand(msgPattern[1])
+        return message
+    
+    def _translateLineOfType(self, errorType, message):
+        return self._ExceptionTypes[errorType]['name'] + ':' + self._translateMessage(errorType, message) + "\n"
+    
+    def _translateLine(self, line):
+        yield line
+        m = self._errorTypePatterns.match(line)
+        if m:
+            yield self._translateLineOfType(m.lastgroup, line[m.end() + 1:])
 
-def _translateMessage(errorType, message):
-    global __ExceptionTypes
-    for msgPattern in __ExceptionTypes[errorType]['messages']:
-        dm = re.match(cFormatterToRegex(msgPattern[0]), message.lstrip())
-        if dm:
-            return dm.expand(msgPattern[1])
-    return message
-
-def _translateLineOfType(errorType, message):
-    global __ExceptionTypes
-    return __ExceptionTypes[errorType]['name'] + ':' + _translateMessage(errorType, message) + "\n"
-
-def _translateLine(line):
-    global __errorTypePatterns
-    yield line
-    m = __errorTypePatterns.match(line)
-    if m:
-        yield _translateLineOfType(m.lastgroup, line[m.end() + 1:])
-
-cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
-
-def cFormatterToRegex(cFormatterString):
-    regex = re.escape(cFormatterString)
-    for m in cFormatterPattern.findall(regex):
-        regex = regex.replace(m, "(.*)")
-    return regex
+    def getWelcome(self):
+        return self._ExceptionTypes['welcome']

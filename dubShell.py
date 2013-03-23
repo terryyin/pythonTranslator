@@ -18,4 +18,4 @@ import dub.resource as resource
 import sys
 import dub
 
-sys.stderr.write(resource.WELCOME + resource.VERSION + "\n")
+sys.stderr.write(dub.PythonMessageTranslator().getWelcome() + resource.VERSION + "\n")

@@ -43,9 +43,11 @@ Expecting Features
 - [ ] Display Chinese in error output other than '\xe5\x90...'
 - [ ] Flags for output in translated language only
 - [ ] Use README.md as default document that store all info
+- [ ] display in Eclipse console
 
-DUB Python Error Message Translator
+WELCOME
 =====
+已启动Python中英文双语插件DUB
 ##SyntaxError:语法错误
 ###invalid syntax
 无效的语法
