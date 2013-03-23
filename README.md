@@ -37,6 +37,7 @@ Expecting Features
 - [X] catch some of the other errors and translate
 - [X] catch errors output in unittest (hack traceback)
 - [ ] persistently change PYTHONSTARTUP and IDLE setup automatically
+- [ ] Support IDLE (IDLE use a different output method then command-line) 
 - [ ] "python -mdub SyntaxError" will provide help for SyntaxError in dual language
 - [ ] read from a .md document. A new interface to load a different document
 - [ ] Display Chinese in error output other than '\xe5\x90...'

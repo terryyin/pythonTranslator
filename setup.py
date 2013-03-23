@@ -12,7 +12,8 @@ def install():
           author = 'Terry Yin',
           author_email = 'terry.yinze@gmail.com',
           url= 'https://github.com/terryyin/pythonTranslator',
-          scripts=['dubShell.py']
+          scripts=['dubShell.py'],
+          data_files = ['README.md']
           )
 
 if __name__ == "__main__":

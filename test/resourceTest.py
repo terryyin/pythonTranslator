@@ -18,6 +18,8 @@
 import unittest
 
 from dub.translator import cFormatterToRegex
+from dub.resource import LoadExceptionTypesInfo
+from dub.resource import DUBLoadError
 
 class TestCFormatterToRegex(unittest.TestCase):
 
@@ -38,5 +40,41 @@ class TestCFormatterToRegex(unittest.TestCase):
 
     def testStringFormatterMulitplePlaces(self):
         self.assertEqual("(.*)(.*)(.*)", cFormatterToRegex("%.100s%.200s%s"))
+
+
+START_TOKEN = "DUB Python Error Message Translator\n=====\n"
+class TestLoadResourceFile(unittest.TestCase):
+    
+    def test_ShouldRaiseWhenNoStartTokenFound(self):
+        self.assertRaisesRegexp(DUBLoadError, "No expection info found", lambda:LoadExceptionTypesInfo("DUB Python Error Message Translator\n++++\n"))
+
+    def test_ShouldRaiseWhenStartTokenNotEndedWithSeparators(self):
+        self.assertRaisesRegexp(DUBLoadError, "No expection info found", lambda:LoadExceptionTypesInfo("balh\nblah"))
+
+    def test_ShouldReturnEmptyTypesWhenStartTokenFound(self):
+        types = LoadExceptionTypesInfo(START_TOKEN)
+        self.assertEqual(0, len(types))
+    
+    def test_ShouldReturnTypeWhenDefined(self):
+        types = LoadExceptionTypesInfo(START_TOKEN + 
+                    "SomeError: SomeErrorInOtherLanguage\n" +
+                    "-----------------------------------\n"
+                )
+        self.assertEqual(1, len(types))
+        self.assertIn("SomeError", types)
+        self.assertEqual("SomeErrorInOtherLanguage", types["SomeError"]['name'])
+        
+    def test_ShouldReturnTypeWithMessageWhenDefined(self):
+        types = LoadExceptionTypesInfo(START_TOKEN + 
+                    "SomeError: SomeErrorInOtherLanguage\n" +
+                    "-----------------------------------\n" +
+                    "###message1\n" +
+                    "translation1\n" +
+                    "###message2\n" +
+                    "translation2\n"
+                )
+        self.assertEqual(["message1","translation1"], types["SomeError"]['messages'][0])
+        self.assertEqual(["message2","translation2"], types["SomeError"]['messages'][1])
+        
 
 

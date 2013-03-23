@@ -16,6 +16,35 @@
 #  author: terry.yinzhe@gmail.com
 #
 
+class DUBLoadError(Exception):
+    def __init__(self, message):
+        self.message = message
+    def __str__(self):
+        return self.message
+
+def LoadExceptionTypesInfo(doc):
+    start = doc.find("DUB Python Error Message Translator\n=")
+    if start >=0:
+        types = {}
+        lastLine = ""
+        currentMessages = []
+        for line in doc[start:].splitlines()[2:]:
+            line = line.strip()
+            if len(line) > 0:
+                if line[0] == '-' and line == '-' * len(line):
+                    errorName = lastLine.split(':', 1)
+                    currentMessages = []
+                    types[errorName[0].strip()] = {'name':errorName[1].strip(), 'messages' : currentMessages}
+                elif line.startswith("###"):
+                    currentMessages.append([line[3:],""])
+                else:
+                    if len(currentMessages) > 0:
+                        currentMessages[-1][1] = line
+            lastLine = line
+        return types
+    error = DUBLoadError("No expection info found")
+    raise error
+
 WELCOME = "已启动Python中英文双语插件DUB"
 VERSION = "0.1"
 GITHUB = "https://github.com/terryyin/pythonTranslator"
