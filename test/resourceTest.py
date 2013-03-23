@@ -57,8 +57,7 @@ class TestLoadResourceFile(unittest.TestCase):
     
     def test_ShouldReturnTypeWhenDefined(self):
         types = LoadExceptionTypesInfo(START_TOKEN + 
-                    "SomeError: SomeErrorInOtherLanguage\n" +
-                    "-----------------------------------\n"
+                    "##SomeError: SomeErrorInOtherLanguage\n" 
                 )
         self.assertEqual(1, len(types))
         self.assertIn("SomeError", types)
@@ -66,12 +65,12 @@ class TestLoadResourceFile(unittest.TestCase):
         
     def test_ShouldReturnTypeWithMessageWhenDefined(self):
         types = LoadExceptionTypesInfo(START_TOKEN + 
-                    "SomeError: SomeErrorInOtherLanguage\n" +
-                    "-----------------------------------\n" +
+                    "##SomeError: SomeErrorInOtherLanguage\n" +
                     "###message1\n" +
                     "translation1\n" +
                     "###message2\n" +
-                    "translation2\n"
+                    "translation2\n" +
+                    "##OtherError:\n"
                 )
         self.assertEqual(["message1","translation1"], types["SomeError"]['messages'][0])
         self.assertEqual(["message2","translation2"], types["SomeError"]['messages'][1])

@@ -17,7 +17,7 @@
 
 import unittest
 from dub import translateTraceList
-from .utility import assertTypeOFTranslatedLine
+from .testData import assertTypeOFTranslatedLine
 
 class TranslatorTest(unittest.TestCase):
     def testTranslateEmptyList(self):

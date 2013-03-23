@@ -15,7 +15,7 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-from .resource import ExceptionTypes
+from .resource import loadExceptionTypesFromFile
 import re
 
 def translateTraceList(traceList):
@@ -26,23 +26,27 @@ def translateTraceList(traceList):
     return translatedList
 
 __errorTypePatterns = None
+__ExceptionTypes = None
 
 def _initPatterns():
-    global __errorTypePatterns
+    global __errorTypePatterns, __ExceptionTypes
     if __errorTypePatterns is None:
-        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in ExceptionTypes.keys()])
+        __ExceptionTypes = loadExceptionTypesFromFile()
+        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in __ExceptionTypes.keys()])
         __errorTypePatterns = re.compile(regstr)
     return __errorTypePatterns
 
 def _translateMessage(errorType, message):
-    for msgPattern in ExceptionTypes[errorType]['messages']:
+    global __ExceptionTypes
+    for msgPattern in __ExceptionTypes[errorType]['messages']:
         dm = re.match(cFormatterToRegex(msgPattern[0]), message.lstrip())
         if dm:
             return dm.expand(msgPattern[1])
     return message
 
 def _translateLineOfType(errorType, message):
-    return ExceptionTypes[errorType]['name'] + ':' + _translateMessage(errorType, message) + "\n"
+    global __ExceptionTypes
+    return __ExceptionTypes[errorType]['name'] + ':' + _translateMessage(errorType, message) + "\n"
 
 def _translateLine(line):
     global __errorTypePatterns

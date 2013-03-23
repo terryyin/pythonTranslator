@@ -20,7 +20,7 @@ import unittest
 from subprocess import Popen, PIPE
 import os
 import dub.resource as resource
-from .utility import typeOFTranslatedLineInList
+from .testData import typeOFTranslatedLineInList
 import sys
 
 decode = [lambda x:x, lambda x:x.decode('UTF-8')][sys.version_info.major>2] 
@@ -48,12 +48,12 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
 
 class testDubForPythonInProgramMode(unittest.TestCase):
     def testShouldSeeNoErrorWhenEverythingIsOK(self):
-        self.shell = Popen("python test/example.py".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
+        self.shell = Popen("python example.py".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
         stdout, stderr = self.shell.communicate("")
         self.assertEqual([], decode(stderr).splitlines())
         
     def testShouldSeeTranslationOfTheError(self):
-        self.shell = Popen("python test/example.py 1+\n".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
+        self.shell = Popen("python example.py 1+\n".split(), stdin = PIPE, stdout = PIPE, stderr = PIPE)
         stdout, stderr = self.shell.communicate("")
         self.assertTrue(typeOFTranslatedLineInList('SyntaxError', decode(stderr).splitlines()))
 
