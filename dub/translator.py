@@ -51,3 +51,7 @@ class PythonMessageTranslator:
 
     def getWelcome(self):
         return self._ExceptionTypes['welcome']
+    
+    def getTraceTitle(self):
+        return ['Traceback (most recent call last):\n', self._ExceptionTypes['Traceback']['name']+'\n']
+    

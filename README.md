@@ -37,13 +37,16 @@ Expecting Features
 - [X] catch some of the other errors and translate
 - [X] catch errors output in unittest (hack traceback)
 - [ ] persistently change PYTHONSTARTUP and IDLE setup automatically
-- [ ] Support IDLE (IDLE use a different output method then command-line) 
+- [X] Support IDLE (IDLE use a different output method then command-line) 
 - [ ] "python -mdub SyntaxError" will provide help for SyntaxError in dual language
 - [ ] read from a .md document. A new interface to load a different document
 - [ ] Display Chinese in error output other than '\xe5\x90...'
 - [ ] Flags for output in translated language only
-- [ ] Use README.md as default document that store all info
-- [ ] display in Eclipse console
+- [X] Use README.md as default document that store all info
+- [ ] Chinese display in Eclipse console
+- [ ] add examples to doc
+- [ ] Use translate sever to translate unknown message
+- [ ] Collect unknown message and count popularity
 
 WELCOME
 =====
@@ -94,7 +97,7 @@ WELCOME
 ###can only concatenate list (not \"%.200s\") to list
 列表只能连接列表（不能是"\1"）
 ###can only concatenate tuple (not \"%.200s\") to tuple
-元组只能连拉元组（不能是"\1"）
+元组只能连接元组（不能是"\1"）
 ###'%.200s' object does not support item assignment
 ‘\1’对象不支持对其中的项目赋值
                                          
@@ -110,4 +113,4 @@ WELCOME
 ###invalid literal for int() with base %d: %R
 给int()函数传递的\1进制数字写法有误：\2
 ##AssertionError:断言错误
-##Traceback:回溯追踪（最近的调用在最后）
+##Traceback:回溯追踪（最近的调用在最后）:

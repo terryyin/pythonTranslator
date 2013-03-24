@@ -14,17 +14,28 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import unittest
 
-from .integrationTests import *
-from .dubTest import *
-from .translatorTest import *
-from .resourceTest import *
-try:
-    import idlelib
-    from .idleTest import *
-except:
-    pass
+import unittest
+from idlelib.PyShell import InteractiveInterpreter
+from testData import typeOFTranslatedLineInList
+
+class MyInteractiveInterpreter(InteractiveInterpreter):
+    def __init__(self):
+        self.output = ""
         
-if __name__ == '__main__':
-    unittest.main()
+    def write(self, cont):
+        self.output += cont
+    
+class TestIDLE(unittest.TestCase):
+    def setUp(self):
+        self.output = ""
+        
+        
+    def test_ShouldWorkWithIDLE(self):
+        import dub
+        ii = MyInteractiveInterpreter()
+        try:
+            {}+1
+        except:
+            ii.showtraceback()
+        self.assertTrue(typeOFTranslatedLineInList('TypeError', ii.output.splitlines()))

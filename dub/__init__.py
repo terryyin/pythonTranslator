@@ -19,13 +19,23 @@ import sys
 import traceback
 from .translator import PythonMessageTranslator
 
+__traceback_format_exception_only = traceback.format_exception_only
 __traceback_format_exception = traceback.format_exception
 
-def dub_format_exception(etype, value, tb, limit=None):
-    traceList = __traceback_format_exception(etype, value, tb, limit)
+def dub_format_exception_only(etype, value, limit=None):
+    traceList = __traceback_format_exception_only(etype, value)
     return PythonMessageTranslator().translateTraceList(traceList)
 
-traceback.format_exception = dub_format_exception
+def dub_format_exception(etype, value, tb, limit=None):
+    if tb:
+        list = PythonMessageTranslator().getTraceTitle()
+        list = list + traceback.format_tb(tb, limit)
+    else:
+        list = []
+    list = list + dub_format_exception_only(etype, value)
+    return list
+
+traceback.format_exception_only = dub_format_exception_only
 
 def excepthook(exctype, value, tb):
     sys.stderr.writelines(dub_format_exception(exctype, value, tb))

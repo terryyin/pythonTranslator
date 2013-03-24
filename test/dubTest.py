@@ -34,6 +34,7 @@ class DubTest(unittest.TestCase):
 
     def testSyntaxError(self):
         traceList = self.generatorTraceback(CODE_SYNTAXERROR)
+        self.assertTrue(typeOFTranslatedLineInList('Traceback', traceList))
         self.assertTrue(typeOFTranslatedLineInList('SyntaxError', traceList))
 
     def testNameError(self):

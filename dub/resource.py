@@ -16,14 +16,15 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-import re
+import re, os, sys
+
+openReadOnly = [lambda f:open(f, 'r'), lambda f:open(f, 'r', encoding='utf8')][sys.version_info.major >2]
 
 def loadExceptionTypesFromFile(resourceFile="README.md"):
     global ExceptionTypes
-    import os, sys
     if not os.path.exists(resourceFile):
         resourceFile = sys.prefix + "/dub/" + resourceFile
-    with open(resourceFile) as f:
+    with openReadOnly(resourceFile) as f:
         return LoadExceptionTypesInfo(f.read())
     
 
