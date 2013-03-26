@@ -23,7 +23,7 @@ import dub.resource as resource
 from .testData import typeOFTranslatedLineInList, WELCOME
 import sys
 
-decode = [lambda x:x, lambda x:x.decode('UTF-8')][sys.version_info.major>2] 
+decode = [lambda x:x, lambda x:x.decode(resource.ENCODE)][sys.version_info.major>2] 
 
 class testDubForPythonInInteractiveMode(unittest.TestCase):
     def setUp(self):
@@ -37,7 +37,7 @@ class testDubForPythonInInteractiveMode(unittest.TestCase):
         self.assertEqual('', decode(stdout))
         
     def testShouldSeeTranslatedSyntaxError(self):
-        stdout, stderr = self.shell.communicate("1+\n".encode("UTF-8"))
+        stdout, stderr = self.shell.communicate("1+\n".encode(resource.ENCODE))
         self.assertTrue(typeOFTranslatedLineInList('SyntaxError', decode(stderr).splitlines()))
         self.assertEqual('', decode(stdout))
         

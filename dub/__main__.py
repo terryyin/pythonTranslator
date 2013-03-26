@@ -14,13 +14,5 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import unittest
 
-from .integrationTests import *
-from .dubTest import *
-from .translatorTest import *
-from .resourceTest import *
-#from .idleTest import *
-        
-if __name__ == '__main__':
-    unittest.main()
+print("hello!")

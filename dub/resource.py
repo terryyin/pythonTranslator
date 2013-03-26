@@ -18,12 +18,17 @@
 
 import re, os, sys
 
-openReadOnly = [lambda f:open(f, 'r'), lambda f:open(f, 'r', encoding='utf8')][sys.version_info.major >2]
+VERSION = "0.1"
+GITHUB = "https://github.com/terryyin/pythonTranslator"
+ENCODE = "utf-8"
+RESOURCE_FOLDER = "dub_resource"
+
+openReadOnly = [lambda f:open(f, 'r'), lambda f:open(f, 'r', encoding=ENCODE)][sys.version_info.major >2]
 
 def loadExceptionTypesFromFile(resourceFile="README.md"):
     global ExceptionTypes
     if not os.path.exists(resourceFile):
-        resourceFile = sys.prefix + "/dub/" + resourceFile
+        resourceFile = sys.prefix + "/" + RESOURCE_FOLDER + "/" + resourceFile
     with openReadOnly(resourceFile) as f:
         return LoadExceptionTypesInfo(f.read())
     
@@ -66,6 +71,3 @@ def cFormatterToRegex(cFormatterString):
     for m in cFormatterPattern.findall(regex):
         regex = regex.replace(m, "(.*)")
     return regex
-
-VERSION = "0.1"
-GITHUB = "https://github.com/terryyin/pythonTranslator"

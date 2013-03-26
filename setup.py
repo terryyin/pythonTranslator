@@ -4,7 +4,7 @@
 '''
 
 from distutils.core import setup
-from dub.resource import VERSION
+from dub.resource import VERSION, RESOURCE_FOLDER
 def install():
     setup(name = 'dub',
           version = VERSION,
@@ -13,7 +13,7 @@ def install():
           author_email = 'terry.yinze@gmail.com',
           url= 'https://github.com/terryyin/pythonTranslator',
           scripts=['dubShell.py'],
-          data_files = [('dub',['README.md'])]
+          data_files = [(RESOURCE_FOLDER, ['README.md'])]
           )
 
 if __name__ == "__main__":

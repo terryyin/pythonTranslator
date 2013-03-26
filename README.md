@@ -21,7 +21,7 @@ sudo python setup.py install
 <pre>
 import dub
 </pre>
-这样出错信息就会变成双语的。目前有一个限制就是如果和import dub同级的代码有语法错误，那么dub还没有开始工作，所以错误信息仍为英文。
+这样出错信息就会变成双语的。目前有一个限制是如果和import dub同级的代码有语法错误，那么dub还没有开始工作，所以错误信息仍为英文。
 
 For developer
 ================
@@ -31,22 +31,18 @@ python -munittest test
 </pre>
 This project is going to provide multiple language support for the Python programming language. e.g. Enable Python to output error messages in Chinese.
 
-Expecting Features
+ToDo
 ----------
-- [X] catch the syntax error and translate the output
-- [X] catch some of the other errors and translate
-- [X] catch errors output in unittest (hack traceback)
 - [ ] persistently change PYTHONSTARTUP and IDLE setup automatically
-- [X] Support IDLE (IDLE use a different output method then command-line) 
 - [ ] "python -mdub SyntaxError" will provide help for SyntaxError in dual language
 - [ ] read from a .md document. A new interface to load a different document
 - [ ] Display Chinese in error output other than '\xe5\x90...'
 - [ ] Flags for output in translated language only
-- [X] Use README.md as default document that store all info
 - [ ] Chinese display in Eclipse console
 - [ ] add examples to doc
 - [ ] Use translate sever to translate unknown message
 - [ ] Collect unknown message and count popularity
+- [ ] SyntaxError in IDLE (need to hack IDLE)
 
 WELCOME
 =====
