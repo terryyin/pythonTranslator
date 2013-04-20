@@ -46,10 +46,10 @@ START_TOKEN = "WELCOME\n=====\n"
 class TestLoadResourceFile(unittest.TestCase):
     
     def test_ShouldRaiseWhenNoStartTokenFound(self):
-        self.assertRaisesRegexp(DUBLoadError, "No expection info found", lambda:LoadExceptionTypesInfo("DUB Python Error Message Translator\n++++\n"))
+        self.assertRaisesRegexp(DUBLoadError, "No exception info found", lambda:LoadExceptionTypesInfo("DUB Python Error Message Translator\n++++\n"))
 
     def test_ShouldRaiseWhenStartTokenNotEndedWithSeparators(self):
-        self.assertRaisesRegexp(DUBLoadError, "No expection info found", lambda:LoadExceptionTypesInfo("balh\nblah"))
+        self.assertRaisesRegexp(DUBLoadError, "No exception info found.", lambda:LoadExceptionTypesInfo("balh\nblah"))
 
     def test_ShouldReturnEmptyTypesWhenStartTokenFound(self):
         types = LoadExceptionTypesInfo(START_TOKEN)

@@ -51,7 +51,6 @@ class TestIDLE(unittest.TestCase):
             {}+1
         except:
             ii.showtraceback()
-        print ("$$$$$$$$$$$$$$$$$$$$$$$$$$\n"+ii.output)
         self.assertTrue(typeOFTranslatedLineInList('TypeError', ii.output.splitlines()))
 
     def test_SyntaxErrorShouldWorkWithIDLE(self):

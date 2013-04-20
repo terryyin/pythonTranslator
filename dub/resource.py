@@ -61,7 +61,7 @@ def LoadExceptionTypesInfo(doc):
                     if len(currentMessages) > 0:
                         currentMessages[-1][1] = line
         return types
-    error = DUBLoadError("No expection info found")
+    error = DUBLoadError("No exception info found.")
     raise error
 
 cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
