@@ -4,10 +4,11 @@
 '''
 
 from distutils.core import setup
-from dub.resource import VERSION, RESOURCE_FOLDER
+from dub_src.resource import VERSION, RESOURCE_FOLDER
 def install():
     setup(name = 'dub',
           version = VERSION,
+          package_dir = {'dub':'dub_src'},
           packages = ['dub'],
           author = 'Terry Yin',
           author_email = 'terry.yinze@gmail.com',

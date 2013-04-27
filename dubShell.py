@@ -14,8 +14,9 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import dub.resource as resource
+from dub.resource import loadExceptionTypesFromFile, resourceFile, VERSION
 import sys
 import dub
 
-sys.stderr.write(dub.PythonMessageTranslator().getWelcome() + resource.VERSION + "\n")
+exceptionTypes = loadExceptionTypesFromFile(resourceFile)
+sys.stderr.write(dub.PythonMessageTranslator(exceptionTypes).getWelcome() + VERSION + "\n")

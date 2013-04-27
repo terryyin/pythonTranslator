@@ -16,19 +16,19 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-import re, os, sys
+import sys
 
 VERSION = "0.1"
 GITHUB = "https://github.com/terryyin/pythonTranslator"
 ENCODE = "utf-8"
 RESOURCE_FOLDER = "dub_resource"
+resourceFile = sys.prefix + "/" + RESOURCE_FOLDER + "/README.md"
+
 
 openReadOnly = [lambda f:open(f, 'r'), lambda f:open(f, 'r', encoding=ENCODE)][sys.version_info.major >2]
 
-def loadExceptionTypesFromFile(resourceFile="README.md"):
+def loadExceptionTypesFromFile(resourceFile):
     global ExceptionTypes
-    if not os.path.exists(resourceFile):
-        resourceFile = sys.prefix + "/" + RESOURCE_FOLDER + "/" + resourceFile
     with openReadOnly(resourceFile) as f:
         return LoadExceptionTypesInfo(f.read())
     
@@ -64,10 +64,3 @@ def LoadExceptionTypesInfo(doc):
     error = DUBLoadError("No exception info found.")
     raise error
 
-cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
-
-def cFormatterToRegex(cFormatterString):
-    regex = re.escape(cFormatterString)
-    for m in cFormatterPattern.findall(regex):
-        regex = regex.replace(m, "(.*)")
-    return regex

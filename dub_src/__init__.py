@@ -18,17 +18,20 @@
 import sys
 import traceback
 from .translator import PythonMessageTranslator
+from resource import resourceFile, loadExceptionTypesFromFile
 
 __traceback_format_exception_only = traceback.format_exception_only
 __traceback_format_exception = traceback.format_exception
 
 def dub_format_exception_only(etype, value, limit=None):
+    exceptionTypes = loadExceptionTypesFromFile(resourceFile)
     traceList = __traceback_format_exception_only(etype, value)
-    return PythonMessageTranslator().translateTraceList(traceList)
+    return PythonMessageTranslator(exceptionTypes).translateTraceList(traceList)
 
 def dub_format_exception(etype, value, tb, limit=None):
     if tb:
-        list = PythonMessageTranslator().getTraceTitle()
+        exceptionTypes = loadExceptionTypesFromFile(resourceFile)
+        list = PythonMessageTranslator(exceptionTypes).getTraceTitle()
         list = list + traceback.format_tb(tb, limit)
     else:
         list = []

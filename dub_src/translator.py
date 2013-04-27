@@ -15,12 +15,13 @@
 #  author: terry.yinzhe@gmail.com
 #
 
-from .resource import loadExceptionTypesFromFile, cFormatterToRegex
 import re
 
 class PythonMessageTranslator:
-    def __init__(self):
-        self._initPatterns()
+    def __init__(self, ExceptionTypes):
+        self._ExceptionTypes = ExceptionTypes
+        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in self._ExceptionTypes.keys()])
+        self._errorTypePatterns = re.compile(regstr)
 
     def translateTraceList(self, traceList):
         translatedList = []
@@ -28,11 +29,6 @@ class PythonMessageTranslator:
             translatedList.extend(self._translateLine(line))
         return translatedList
 
-    def _initPatterns(self):
-        self._ExceptionTypes = loadExceptionTypesFromFile()
-        regstr = '|'.join(["(?P<{0}>{0})".format(et) for et in self._ExceptionTypes.keys()])
-        self._errorTypePatterns = re.compile(regstr)
-    
     def _translateMessage(self, errorType, message):
         for msgPattern in self._ExceptionTypes[errorType]['messages']:
             dm = re.match(cFormatterToRegex(msgPattern[0]), message.lstrip())
@@ -55,3 +51,10 @@ class PythonMessageTranslator:
     def getTraceTitle(self):
         return ['Traceback (most recent call last):\n', self._ExceptionTypes['Traceback']['name']+'\n']
     
+cFormatterPattern = re.compile(r"\\%\\?\.?\d*[sdR]")
+
+def cFormatterToRegex(cFormatterString):
+    regex = re.escape(cFormatterString)
+    for m in cFormatterPattern.findall(regex):
+        regex = regex.replace(m, "(.*)")
+    return regex

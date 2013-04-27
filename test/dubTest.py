@@ -16,7 +16,7 @@
 #
 
 import unittest
-from dub import dub_format_exception
+from dub_src import dub_format_exception
 from .testData import typeOFTranslatedLineInList
 
 CODE_SYNTAXERROR = "1+\n"

@@ -17,9 +17,9 @@
 
 import unittest
 
-from dub.translator import cFormatterToRegex
-from dub.resource import LoadExceptionTypesInfo
-from dub.resource import DUBLoadError
+from dub_src.translator import cFormatterToRegex
+from dub_src.resource import LoadExceptionTypesInfo
+from dub_src.resource import DUBLoadError
 
 class TestCFormatterToRegex(unittest.TestCase):
 

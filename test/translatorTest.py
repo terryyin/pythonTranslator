@@ -16,36 +16,37 @@
 #
 
 import unittest
-from dub.translator import PythonMessageTranslator
-from .testData import assertTypeOFTranslatedLine
+from dub_src.translator import PythonMessageTranslator
+from .testData import assertTypeOFTranslatedLine, ExceptionTypes
 
 class TranslatorTest(unittest.TestCase):
+    translator = PythonMessageTranslator(ExceptionTypes)
     def testTranslateEmptyList(self):
-        traceList = PythonMessageTranslator().translateTraceList([])
+        traceList = self.translator.translateTraceList([])
         self.assertEqual([], traceList)
 
     def testTranslateTraceBack(self):
-        traceList = PythonMessageTranslator().translateTraceList(['Traceback (most recent call last):\n'])
+        traceList = self.translator.translateTraceList(['Traceback (most recent call last):\n'])
         self.assertTrue(traceList[0].startswith('Traceback (most recent call last):'))
         assertTypeOFTranslatedLine(self, traceList[1], 'Traceback')
 
     def testTranslateErrorWithArgument(self):
-        line = PythonMessageTranslator().translateTraceList(["NameError: name 'xxx' is not defined\n"])[1]
+        line = self.translator.translateTraceList(["NameError: name 'xxx' is not defined\n"])[1]
         assertTypeOFTranslatedLine(self, line, 'NameError')
         self.assertIn('xxx', line)
 
     def testTranslateErrorWithMultipleArgument(self):
-        line = PythonMessageTranslator().translateTraceList(["TypeError: unsupported operand type(s) for /: 'str' and 'int'"])[1]
+        line = self.translator.translateTraceList(["TypeError: unsupported operand type(s) for /: 'str' and 'int'"])[1]
         assertTypeOFTranslatedLine(self, line, 'TypeError')
         self.assertIn('str', line)
         self.assertIn('int', line)
         self.assertIn('/', line)
         
     def testAssertionError(self):
-        line = PythonMessageTranslator().translateTraceList([r"AssertionError: 'xxx' not found in '\xe5\x90\x8d\xe5\xad\x97\xe9\x94\x99\xe8\xaf\xaf:\n'"])[1]
+        line = self.translator.translateTraceList([r"AssertionError: 'xxx' not found in '\xe5\x90\x8d\xe5\xad\x97\xe9\x94\x99\xe8\xaf\xaf:\n'"])[1]
         assertTypeOFTranslatedLine(self, line, 'AssertionError')
 
     def testTranslateErrorWithMessageThatDoesntMatchAnyDefinedPattern(self):
-        line = PythonMessageTranslator().translateTraceList(["TypeError: NOT_DEFINED"])[1]
+        line = self.translator.translateTraceList(["TypeError: NOT_DEFINED"])[1]
         assertTypeOFTranslatedLine(self, line, 'TypeError')
         self.assertIn('NOT_DEFINED', line)
