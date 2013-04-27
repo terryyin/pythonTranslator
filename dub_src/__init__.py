@@ -18,7 +18,7 @@
 import sys
 import traceback
 from .translator import PythonMessageTranslator
-from resource import resourceFile, loadExceptionTypesFromFile
+from .resource import loadExceptionTypesFromFile, resourceFile
 
 __traceback_format_exception_only = traceback.format_exception_only
 __traceback_format_exception = traceback.format_exception
