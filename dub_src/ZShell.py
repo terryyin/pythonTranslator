@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -14,14 +15,13 @@
 #
 #  author: terry.yinzhe@gmail.com
 #
-import unittest
 
-from .integrationTests import *
-from .dubTest import *
-from .translatorTest import *
-from .resourceTest import *
-#from .idleTest import *
-from idlezTest import *
-        
-if __name__ == '__main__':
-    unittest.main()
+class ZShell(object):
+    
+    def hackPyShell(self, PyShell):
+        PyShell.menu_specs[0] = ("file", "文件")
+    
+    
+
+
+
