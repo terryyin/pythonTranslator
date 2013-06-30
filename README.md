@@ -96,7 +96,8 @@ WELCOME
 元组只能连接元组（不能是"\1"）
 ###'%.200s' object does not support item assignment
 ‘\1’对象不支持对其中的项目赋值
-                                         
+###can only concatenate list (not "%.100s") to list
+列表只能和列表相连接（不能是\1）
 ##KeyError:键错误
                          
 ##IndexError:索引错误
