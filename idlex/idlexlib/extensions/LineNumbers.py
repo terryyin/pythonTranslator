@@ -60,9 +60,9 @@ if sys.version < '3':
 else:
     from tkinter import END, Text, LEFT, Y, NONE, RIGHT, NORMAL, DISABLED, Label, TOP, Frame, X
 
-from idlelib.configHandler import idleConf
-from idlelib.Delegator import Delegator
-from idlelib.Percolator import Percolator
+from idlelib.config import idleConf
+from idlelib.delegator import Delegator
+from idlelib.percolator import Percolator
 
 
 FONTUPDATEINTERVAL = 1000   # milliseconds
